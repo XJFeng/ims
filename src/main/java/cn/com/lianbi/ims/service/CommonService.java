@@ -22,13 +22,5 @@ public class CommonService {
 	public List<Map> findListBySql(String sqlString,Map<String,Object> paramMap,Page page){
 		return hibernateDao.findListBySql(sqlString,null,null);
 	}
-
-	public HibernateDao getHibernateDao() {
-		return hibernateDao;
-	}
-
-	public void setHibernateDao(HibernateDao hibernateDao) {
-		this.hibernateDao = hibernateDao;
-	}
 	
 }
