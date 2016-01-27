@@ -18,9 +18,17 @@ public class CommonService {
 
 	@Autowired
 	private HibernateDao hibernateDao;
-	
-	public List<Map> findListBySql(String sqlString,Map<String,Object> paramMap,Page page){
-		return hibernateDao.findListBySql(sqlString,null,null);
+
+	public List<Map> findListBySql(String sqlString, Map<String, Object> paramMap, Page page) {
+		return hibernateDao.findListBySql(sqlString, null, null);
 	}
-	
+
+	public int getCountNum(String sqlString, Map<String, Object> paramMap) {
+
+		String countSql = "select count(*) as totalResult from ( " + sqlString + " ) as results";
+		int totalResult = Integer.parseInt(hibernateDao.findUniqueResultBySql(countSql, paramMap).toString());
+
+		return totalResult;
+	}
+
 }

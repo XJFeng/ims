@@ -40,7 +40,7 @@ public class UserContronller {
 		logger.debug(this);
 		logger.debug("userId is {}",userId);
 		hello.say();
-		List<Map> list = service.findListBySql("select * from mis_sys_user", null, null);
+		List<Map> list = service.findListBySql("select * from area", null, null);
 		logger.debug(list);
 		return new User();
 	}
