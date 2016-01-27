@@ -18,9 +18,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HibernateDao {
-	
-	private static final Logger logger = LogManager
-			.getLogger(HibernateDao.class);
+
+	private static final Logger logger = LogManager.getLogger(HibernateDao.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -37,8 +36,7 @@ public class HibernateDao {
 	 * @return {@link Map} 类型的结果集
 	 */
 	@SuppressWarnings("rawtypes")
-	public List<Map> findListBySql(String sqlString,
-			Map<String, Object> paramMap, Page page) {
+	public List<Map> findListBySql(String sqlString, Map<String, Object> paramMap, Page page) {
 
 		logger.debug("sqlString: {}", sqlString);
 		logger.debug("paramMap: {}", paramMap);
@@ -64,6 +62,30 @@ public class HibernateDao {
 	}
 
 	/**
+	 * 更新或删除
+	 * 
+	 * @author junhong.xie
+	 * @param sqlString
+	 *            SQL字符串
+	 * @param paramMap
+	 *            查询参数
+	 * @return 更新或删除的数量
+	 */
+	public int executeUpdateBySql(String sqlString, Map<String, Object> paramMap) {
+
+		logger.debug("sqlString: {}", sqlString);
+		logger.debug("paramMap: {}", paramMap);
+
+		Session session = sessionFactory.getCurrentSession();
+		SQLQuery sqlQuery = session.createSQLQuery(sqlString);
+
+		if (paramMap != null && paramMap.size() > 0)
+			paramMap.forEach((key, val) -> sqlQuery.setParameter(key, val));
+
+		return sqlQuery.executeUpdate();
+	}
+
+	/**
 	 * 返回单条结果 或 null，如果多个结果找到，则抛出 {@link org.hibernate.NonUniqueResultException}
 	 * 
 	 * @param sqlString
@@ -72,18 +94,17 @@ public class HibernateDao {
 	 *            查询参数
 	 * @return 单条结果 或 {@code null}
 	 */
-	public Object findUniqueResultBySql(String sqlString,
-			Map<String, Object> paramMap) {
+	public Object findUniqueResultBySql(String sqlString, Map<String, Object> paramMap) {
 
 		logger.debug("sqlString: {}", sqlString);
 		logger.debug("paramMap: {}", paramMap);
-		
+
 		Session session = sessionFactory.getCurrentSession();
 		SQLQuery sqlQuery = session.createSQLQuery(sqlString);
-		
+
 		if (paramMap != null && paramMap.size() > 0)
 			paramMap.forEach((key, val) -> sqlQuery.setParameter(key, val));
-		
+
 		return sqlQuery.uniqueResult();
 	}
 
