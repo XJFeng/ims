@@ -40,14 +40,17 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 			<value>
 				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 				hibernate.show_sql=true
+				<!-- hibernate.hbm2ddl.auto=create -->
 				<!-- hibernate.format_sql=true -->
 			</value>
 		</property>
+		<property name="packagesToScan">
+		<!-- hibernate 注解实体类扫描范围 -->
+			<list>
+				<value>cn.com.lianbi.ims.vote.entity</value>
+			</list>
+		</property>
 	</bean>
-
-	<!-- hibernateTemplate -->
-	<!-- <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"> 
-		<property name="sessionFactory" ref="sessionFactory" /> </bean> -->
 
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
@@ -59,7 +62,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<aop:config>
 		<aop:pointcut id="serviceOperation"
-			expression="execution(* cn.com.lianbi.ims.service..*Service.*(..))" />
+			expression="execution(* cn.com.lianbi.ims..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
 	</aop:config>
 

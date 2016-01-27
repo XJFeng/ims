@@ -87,8 +87,7 @@ public class HibernateDao {
 		return sqlQuery.uniqueResult();
 	}
 
-	public Session getCurrentSession(String sqlString,
-			Map<String, Object> paramMap, Page page) {
+	public Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
